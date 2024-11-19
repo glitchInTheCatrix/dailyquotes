@@ -1,9 +1,9 @@
 "use client"
 import {Card ,CardHeader ,CardDescription} from "@/components/ui/card";
 import useSWR from "swr";
-import {cn} from "@/lib/utils"
+import {fetcher} from "@/lib/utils"
 export default function Home() {
-  const {data, error, isLoading}=useSWR('https://zenquotes.io/api/quote',cn);
+  const {data, error, isLoading}=useSWR('https://zenquotes.io/api/quotes',fetcher);
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
@@ -13,10 +13,10 @@ export default function Home() {
           Quote Of The Day
 
           <CardDescription>
-          {error &&  <div>failed to load</div>}
+          {error && !isLoading && <div>failed to load</div>}
 
            {isLoading && <div>loading...</div>}
-           {data && <div>{data}</div>}
+           {data && !isLoading && <div>{data}</div>}
           </CardDescription>
         </CardHeader>
       </Card>
